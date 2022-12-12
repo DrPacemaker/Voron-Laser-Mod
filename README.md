@@ -2,6 +2,8 @@
 
 In this project I share how I attached a laser to my Voron 2.4 r2. The main goal was to keep the setup time between 3d printing & lasering as small as possible in combination with a "safe" assembly. You need a printed mount platform which is attached to the stealthburner cover with two screws. If you have an enclosed voron you need to open the doors during bed mesh leveling & quad gantry leveling otherwise the laser will crash into them due to the extended X carriage size.
 
+:warning: **Lasers are dangerous**: Protect your eyes with safety goggles and have fire extinguishers on hand. Lasers will blind you if you don't protect them!
+
 ## Video
 
 <a href="./Videos/LaserDemo.mp4" title="Video"><img src="./Videos/thumbnail.jpg" alt="Video" width="30%" /></a>
@@ -128,4 +130,4 @@ Preview: I noticed that it is extremely difficult to determine with absolute coo
 2. Development of a safe laser mount without the need of screws
 3. Direct deployment of gcodes to klipper from lightburn including the usage of the trace boundary feature built in lightburn
 4. Porting the inline laser feature known from Marlin to Klipper to increase printing speed
-  
+5. Stronger chamber ventilation required to get rid of the amount of smoke as you might see in the video
