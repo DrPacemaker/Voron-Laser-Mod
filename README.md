@@ -4,7 +4,7 @@ In this project I share how I attached a laser to my Voron 2.4 r2. The main goal
 
 ## Video
 
-('<video width="50%" controls><source src="./Videos/LaserDemo.mp4" type="video/mp4"></video>')
+[![Video](./Videos/thumbnail.jpg)](./Videos/LaserDemo.mp4 "Video")
 
 ## Used Hardware
 
@@ -36,7 +36,7 @@ In this project I share how I attached a laser to my Voron 2.4 r2. The main goal
 
 Due to safety concerns I have decided to use a separate switch which controls the general power supply of the laser. You need to route the 4 wires through the cable chains to the print head.
 
-[![]('<img src="./Images/Wiring/WiringLaserVoron1.png" width="50%">')](Images/Wiring/WiringLaserVoron1.png)[![]('<img src="./Images/Wiring/WiringLaserVoron2.png" width="30%">')](Images/Wiring/WiringLaserVoron2.png)
+<img src="./Images/Wiring/WiringLaserVoron1.png" width="50%">  <img src="./Images/Wiring/WiringLaserVoron2.png" width="30%">
 
 ## Printed Parts
 
@@ -46,11 +46,9 @@ Due to safety concerns I have decided to use a separate switch which controls th
 
 ## Laser Mount Assembly
 
-[![]('<img src="./Images/StealthburnerMount/LaserMountAssembly1.png" width="30%">')]("Images/StealthburnerMount/LaserMountAssembly1.png")
-[![]('<img src="./Images/StealthburnerMount/LaserMountAssembly2.png" width="30%">')]("Images/StealthburnerMount/LaserMountAssembly2.png")
+<img src="./Images/StealthburnerMount/LaserMountAssembly1.png" width="30%">  <img src="./Images/StealthburnerMount/LaserMountAssembly2.png" width="30%">
 
-[![]('<img src="./Images/StealthburnerMount/LaserMountAssembly3.jpg" width="30%">')]("Images/StealthburnerMount/LaserMountAssembly3.jpg")
-[![]('<img src="./Images/StealthburnerMount/LaserMountAssembly4.jpg" width="30%">')]("Images/StealthburnerMount/LaserMountAssembly4.jpg")
+<img src="./Images/StealthburnerMount/LaserMountAssembly3.jpg" width="30%">  <img src="./Images/StealthburnerMount/LaserMountAssembly4.jpg" width="30%">
 
 ## Software Settings
 
@@ -114,8 +112,7 @@ I decided to use Lightburn to create the necessary gcode. Main focus is on the u
 
 There are plenty more options to tweak the laser quality in lightburn which I have not yet tested. For first usage the settings below are sufficient.
 
-[![]('<img src="./Images/LightburnSettings/Lightburn1.png" width="60%">')]("Images/LightburnSettings/Lightburn1.png")
-[![]('<img src="./Images/LightburnSettings/Lightburn2.png" width="30%">')]("Images/LightburnSettings/Lightburn2.png")
+<img src="./Images/LightburnSettings/Lightburn1.png" width="60%">  <img src="./Images/LightburnSettings/Lightburn2.png" width="30%">
 
 Once gcode file is created I uploaded it via Fluidd to the printer.
 
