@@ -2,7 +2,7 @@
 
 In this project I share how I attached a laser to my Voron 2.4 r2. The main goal was to keep the setup time between 3d printing & lasering as small as possible in combination with a "safe" assembly. You need a printed mount platform which is attached to the stealthburner cover with two screws. If you have an enclosed voron you need to open the doors during bed mesh leveling & quad gantry leveling otherwise the laser will crash into them due to the extended X carriage size.
 
-:warning: **Lasers are dangerous**: Protect your eyes with safety goggles and have fire extinguishers on hand. Lasers will blind you if you don't protect them!
+:warning: **Lasers are dangerous**: Protect your eyes with safety goggles and have fire extinguishers on hand. Lasers will blind you if you don't protect your eyes! Take care that no unprotected humans & pets are in the room or can look into the laser.
 
 ## Video
 
