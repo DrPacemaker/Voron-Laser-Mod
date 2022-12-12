@@ -6,7 +6,8 @@ In this project I share how I attached a laser to my Voron 2.4 r2. The main goal
 
 ## Video
 
-<a href="./Videos/LaserDemo.mp4" title="Video"><img src="./Videos/thumbnail.jpg" alt="Video" width="30%" /></a>
+<a href="https://streamable.com/fsrknh" title="Video"><img src="./Videos/thumbnail.jpg" alt="Video" width="30%" /></a>
+
 
 ## Used Hardware
 
