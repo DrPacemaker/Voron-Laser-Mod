@@ -121,9 +121,14 @@ Once gcode file is created I uploaded it via Fluidd to the printer.
 
 ### KlipperScreen
 
-TBD: Description will follow later
+TBD
 
 Preview: I noticed that it is extremely difficult to determine with absolute coordinates where the laser is going to do its job, so I wrote a very basic python script which traces the outer boundary of the expected cut. For visualization purpose I manually activate the laser test mode during this.
+
+|Main screen extension|Laser screen
+----|---|
+| In the lower right corner you can find a laser icon which brings you the desired menu   | In this menu you can enable/disable the power switch & test mode of the laser. Special feature is the Laser boundary code which takes the newest print file & let the laser trace its boundaries   |
+| <img src="./Images/KlipperScreen/MainScreen.jpg" width="100%">|<img src="./Images/KlipperScreen/LaserScreen.jpg" width="100%">|
 
 ## Potential area of Improvement
 
@@ -132,3 +137,5 @@ Preview: I noticed that it is extremely difficult to determine with absolute coo
 3. Direct deployment of gcodes to klipper from lightburn including the usage of the trace boundary feature built in lightburn
 4. Porting the inline laser feature known from Marlin to Klipper to increase printing speed
 5. Stronger chamber ventilation required to get rid of the amount of smoke as you might see in the video
+6. KlipperScreen menu could be improved by toggling buttons for laser switch and test mode
+7. KlipperScreen menu could be improved by Z axis adjustment functions
