@@ -50,11 +50,11 @@ Due to safety concerns I have decided to use a separate switch which controls th
 
 ## Laser Mount Assembly
 
-|  #1|#2|
+|#1|#2|
 |:--------:|:--------:|
-|<img src="./Images/StealthburnerMount/LaserMountAssembly1.png" width="80%">|<img src="./Images/StealthburnerMount/LaserMountAssembly2.png" width="80%">|
-| #3|#4|
-|<img src="./Images/StealthburnerMount/LaserMountAssembly3.jpg" width="80%">|<img src="./Images/StealthburnerMount/LaserMountAssembly4.jpg" width="80%">|
+|<img src="./Images/StealthburnerMount/LaserMountAssembly1.png" width="100%">|<img src="./Images/StealthburnerMount/LaserMountAssembly2.png" width="100%">|
+|#3|#4|
+|<img src="./Images/StealthburnerMount/LaserMountAssembly3.png" width="100%">|<img src="./Images/StealthburnerMount/LaserMountAssembly4.png" width="100%">|
 
 ## Software Settings
 
