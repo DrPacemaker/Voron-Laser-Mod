@@ -15,7 +15,7 @@ def create_panel(*args):
 
 class LaserPanel(MenuPanel):
     distances = ['.1', '.5', '1', '5', '10', '25', '50']
-    distance = distances[-2] 
+    distance = distances[-4] 
 
     def __init__(self, screen, title):
         super().__init__(screen, title)
@@ -24,18 +24,10 @@ class LaserPanel(MenuPanel):
         self.h = 1
         self.items_left = []
         self.items_right = []
-        self.devices = {}
+        self.buttons = {}
         self.grid = self._gtk.HomogeneousGrid()
         self.grid.set_hexpand(True)
         self.grid.set_vexpand(True)
-
-        self.buttons = {
-            'z+': self._gtk.Button("z-farther", "Z+", "color3"),
-            'z-': self._gtk.Button("z-closer", "Z-", "color3"),
-        }
-        self.buttons['z+'].connect("clicked", self.move, "Z", "+")
-        self.buttons['z-'].connect("clicked", self.move, "Z", "-")
-
 
     def createItemgroups(self):
         for config in self.items:
@@ -72,33 +64,30 @@ class LaserPanel(MenuPanel):
         self.grid = grid
         self.content.add(self.grid)
     
-    def update_graph_visibility(self):
+    def update_button_visibility(self):
         if self.left_panel is None:
             return
-        count = 0
-        for device in self.devices:
+        for button in self.buttons:
             visible = self._config.get_config().getboolean(f"graph {self._screen.connected_printer}",
-                                                           device, fallback=False)
-            self.devices[device]['visible'] = visible
+                                                           button, fallback=False)
+            self.buttons[button]['visible'] = visible
             if visible:
-                count += 1
-                self.devices[device]['name'].get_style_context().add_class(self.devices[device]['class'])
-                self.devices[device]['name'].get_style_context().remove_class("graph_label_hidden")
+                self.buttons[button]['name'].get_style_context().add_class(self.buttons[button]['class'])
             else:
-                self.devices[device]['name'].get_style_context().add_class("graph_label_hidden")
-                self.devices[device]['name'].get_style_context().remove_class(self.devices[device]['class'])
+                self.buttons[button]['name'].get_style_context().remove_class(self.buttons[button]['class'])
 
     def activate(self):
-        self.update_graph_visibility()
+        self.update_button_visibility()
         self._screen.base_panel_show_all()
 
-    def add_left_menu(self):
+    def get_top_grid(self):
+        top_grid = self._gtk.HomogeneousGrid()
         pos = 0
         if(len(self.items_left) > 0):
             for idx, config in enumerate(self.items_left):
-                pos = idx
+                pos = idx+1
                 for configname, attributes in config.items():
-                    image = attributes['icon']
+                    icon = attributes['icon']
                     params = attributes['params']
                     method = attributes['method']
                     class_name = f"graph_label_sensor_{pos+1}"
@@ -109,25 +98,37 @@ class LaserPanel(MenuPanel):
                     j2_temp = env.from_string(attributes['name'])
                     parsed_name = j2_temp.render()
 
-                    rgb = self._gtk.get_temp_color(dev_type)
-
-                    name = self._gtk.Button(image, parsed_name.capitalize(), "max", 2, Gtk.PositionType.LEFT, 1)
-                    name.connect("clicked", self.toggle_visibility, configname)
-                    name.connect("clicked", self._screen._send_action, method, params)
-                    name.set_alignment(.5, .5)
+                    button = self._gtk.Button(icon, parsed_name.capitalize(), "max", 2, Gtk.PositionType.LEFT, 1)
+                    button.connect("clicked", self.toggle_visibility, configname)
+                    button.connect("clicked", self._screen._send_action, method, params)
+                    button.set_alignment(.5, .5)
                 
-                    self.devices[configname] = {
+                    self.buttons[configname] = {
                         "class": class_name,
-                        "name": name,
+                        "name": button,
                     }
-                    self.labels['devices'].insert_row(pos+1)
-                    self.labels['devices'].attach(name, 0, pos+1, 1, 1)
-                    self.labels['devices'].show_all()
-        
-        subgrid = self._gtk.HomogeneousGrid()
-        subgrid.attach(self.buttons['z+'], Gtk.PositionType.LEFT, 0, 1, 1)
-        subgrid.attach(self.buttons['z-'], Gtk.PositionType.RIGHT, 0, 1, 1)
+                    if pos % 2 == 0:    
+                        top_grid.attach(button, Gtk.PositionType.RIGHT, pos-1, 1, 1)
+                    else:
+                        top_grid.attach(button, Gtk.PositionType.LEFT, pos, 1, 1)
 
+                    top_grid.show_all()
+        return top_grid
+    
+    def get_sub_grid(self):
+        zbuttons = {
+            'z+': self._gtk.Button("z-farther", "Z+", "color3"),
+            'z-': self._gtk.Button("z-closer", "Z-", "color3"),
+        }
+        zbuttons['z+'].connect("clicked", self.move, "Z", "+")
+        zbuttons['z-'].connect("clicked", self.move, "Z", "-")
+
+        subgrid = self._gtk.HomogeneousGrid()
+        subgrid.attach(zbuttons['z+'], Gtk.PositionType.LEFT, 0, 1, 1)
+        subgrid.attach(zbuttons['z-'], Gtk.PositionType.RIGHT, 0, 1, 1)
+        return subgrid
+
+    def get_dist_grid(self):
         distgrid = Gtk.Grid()
         for j, i in enumerate(self.distances):
             self.labels[i] = self._gtk.Button(label=i)
@@ -143,11 +144,7 @@ class LaserPanel(MenuPanel):
             if i == self.distance:
                 ctx.add_class("distbutton_active")
             distgrid.attach(self.labels[i], j, 0, 1, 1)
-        
-        self.labels['devices'].attach(distgrid, 0, pos+2, 1, 1)
-        self.labels['devices'].attach(subgrid, 0, pos+3, 1, 1)
-        
-        return True
+        return distgrid
 
     def run_gcode_macro(self, widget, macro):
         params = ""
@@ -157,35 +154,33 @@ class LaserPanel(MenuPanel):
                 params += f'{param}={value} '
         self._screen._ws.klippy.gcode_script(f"{macro} {params}")
 
-    def toggle_visibility(self, widget, device):
-        self.devices[device]['visible'] ^= True
- 
-        section = f"graph {self._screen.connected_printer}"
+    def toggle_visibility(self, widget, button):
+        self.buttons[button]['visible'] ^= True
+        section = f"graph {self._screen.connected_printer}" 
         if section not in self._config.get_config().sections():
             self._config.get_config().add_section(section)
-        self._config.set(section, f"{device}", f"{self.devices[device]['visible']}")
+        self._config.set(section, f"{button}", f"{self.buttons[button]['visible']}")
         self._config.save_user_config_options()
 
-        self.update_graph_visibility()
+        self.update_button_visibility()
 
     def create_left_panel(self):
 
-        self.labels['devices'] = Gtk.Grid()
-        self.labels['devices'].get_style_context().add_class('heater-grid')
-        self.labels['devices'].set_vexpand(False)
+        self.left_panel_grid = Gtk.Grid()
+        self.left_panel_grid.get_style_context().add_class('heater-grid')
+        self.left_panel_grid.set_vexpand(False)
 
-        name = Gtk.Label("")
-
-        self.labels['devices'].attach(name, 0, 0, 1, 1)
+        self.left_panel_grid.attach(self.get_top_grid(), 0, 1, 1, 1)
+        self.left_panel_grid.attach(self.get_dist_grid(), 0, 2, 1, 1)
+        self.left_panel_grid.attach(self.get_sub_grid(), 0, 3, 1, 1)
 
         scroll = self._gtk.ScrolledWindow()
         scroll.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
-        scroll.add(self.labels['devices'])
+        scroll.add(self.left_panel_grid)
 
         self.left_panel = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
         self.left_panel.add(scroll)
 
-        self.add_left_menu()
         return self.left_panel
 
     def change_distance(self, widget, distance):
