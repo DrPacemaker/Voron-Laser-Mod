@@ -129,7 +129,7 @@ Once gcode file is created I uploaded it via Fluidd to the printer.
 
 It is very difficult to determine with absolute coordinates where the laser is going to do its job. Here is a very basic python script which traces the outer boundaries of the expected cut. For visualization purpose one has to manually activate the laser test mode during execution.
 
-#### Installation:
+#### Installation
 
 1. Copy the files to corresponding folders
    - Copy the files (panels & styles) from [KlipperScreen](/KlipperScreen) to local installation folder
@@ -150,25 +150,9 @@ It is very difficult to determine with absolute coordinates where the laser is g
 
 Not very professional, but it does it's job. Once started the toolhead is tracing the boundaries of the print. If laser test mode is activated the area can be seen where the laser will work. The test mode is not automatically set due to safety reasons.
 
-```mermaid
-graph TD;
-    Start((Start)):::startClass-->A;
-    A[Fetch newest file from given directory]-->B[find ligthburn boundary comment in gcode];
-    B-->if1{found?}
-    if1{found?}-- no -->C[find cura boundary comment in gcode];
-    C-->if2{found?}
-    if2{found?}-- no -->D[read complete gcode line by line];
-    if1{found?}--yes-->E[move toolhead to x/y min];
-    if2{found?}--yes-->E;
-    D-->E;
-    E-->F[move toolhead to x max/y min];
-    F-->G[move toolhead to x max/y max];
-    G-->H[move toolhead to x min/y max];
-    H-->E;
-    E-->End((End)):::endClass;
-    classDef startClass fill:#D3D3D3
-    classDef endClass fill:#D3D3D3
-```
+| Workflow | 
+|-----------|
+| <img src="./Images/KlipperScreen/LaserBounds.jpg" width="100%">|
 
 ## Potential area of Improvement
 
