@@ -127,21 +127,56 @@ Once gcode file is created I uploaded it via Fluidd to the printer.
 
 ### KlipperScreen
 
-TBD
+It is very difficult to determine with absolute coordinates where the laser is going to do its job. Here is a very basic python script which traces the outer boundaries of the expected cut. For visualization purpose one has to manually activate the laser test mode during execution.
 
-Preview: I noticed that it is extremely difficult to determine with absolute coordinates where the laser is going to do its job, so I wrote a very basic python script which traces the outer boundary of the expected cut. For visualization purpose I manually activate the laser test mode during this.
+#### Installation:
+
+1. Copy the files to corresponding folders
+   - Copy the files (panels & styles) from [KlipperScreen](/KlipperScreen) to local installation folder
+   - Copy the [KlipperScreen.conf](/klipper_config/KlipperScreen.conf) to local folder where the configs are stored
+   - Copy the [laser_booundaries.py](/klipper/klippy/extras/laser_boundaries.py) to the extras folder of klipper installation
+   - Copy the file & include the [laser_boundaries.cfg](/klipper_config/laser_boundaries.cfg) in the printer.cfg
+2. Restart klipper
+3. Restart KlipperScreen
+
+#### KlipperScreen Menus
 
 |Main screen extension|Laser screen
 ----|---|
-| In the lower right corner you can find a laser icon which brings you the desired menu   | In this menu you can enable/disable the power switch & test mode of the laser. Special feature is the Laser boundary code which takes the newest print file & let the laser trace its boundaries   |
+| In the lower right corner you can find a laser icon which brings you the desired menu   | In this menu the laser switch and test mode can be de/activated. The test mode runs the laser at 0.01% of its power. Special feature is the Laser boundary code which takes the newest print file & traces its boundaries   |
 | <img src="./Images/KlipperScreen/MainScreen.jpg" width="100%">|<img src="./Images/KlipperScreen/LaserScreen.jpg" width="100%">|
+
+#### Laser Boundaries Script
+
+Not very professional, but it does it's job. Once started the toolhead is tracing the boundaries of the print. If laser test mode is activated the area can be seen where the laser will work. The test mode is not automatically set due to safety reasons.
+
+```mermaid
+graph TD;
+    Start((Start)):::startClass-->A;
+    A[Fetch newest file from given directory]-->B[find ligthburn boundary comment in gcode];
+    B-->if1{found?}
+    if1{found?}-- no -->C[find cura boundary comment in gcode];
+    C-->if2{found?}
+    if2{found?}-- no -->D[read complete gcode line by line];
+    if1{found?}--yes-->E[move toolhead to x/y min];
+    if2{found?}--yes-->E;
+    D-->E;
+    E-->F[move toolhead to x max/y min];
+    F-->G[move toolhead to x max/y max];
+    G-->H[move toolhead to x min/y max];
+    H-->E;
+    E-->End((End)):::endClass;
+    classDef startClass fill:#D3D3D3
+    classDef endClass fill:#D3D3D3
+```
 
 ## Potential area of Improvement
 
-1. Development of a less space consuming laser mount to avoid crashes into the front doors and to maximize the usage of laser area.
-2. Development of a safe laser mount without the need of screws
-3. Direct deployment of gcodes to klipper from lightburn including the usage of the trace boundary feature built in lightburn
-4. Porting the inline laser feature known from Marlin to Klipper to increase printing speed
-5. Stronger chamber ventilation required to get rid of the amount of smoke as you might see in the video
-6. KlipperScreen menu could be improved by toggling buttons for laser switch and test mode
-7. KlipperScreen menu could be improved by Z axis adjustment functions
+1. [ ] Development of a less space consuming laser mount to avoid crashes into the front doors and to maximize the usage of laser area.
+2. [ ] Development of a safe laser mount without the need of screws
+3. [ ] Direct deployment of gcodes to klipper from lightburn including the usage of the trace boundary feature from lightburn
+4. [ ] Enable the user to select the file which should be considered by the laser_boundaries.py script
+5. [ ] Porting the inline laser feature known from Marlin to Klipper to increase printing speed
+6. [ ] Stronger chamber ventilation required to get rid of the amount of smoke as you might see in the video
+7. [x] KlipperScreen menu could be improved by toggling buttons for laser switch and test mode
+8. [x] KlipperScreen menu could be improved by Z axis adjustment functions
