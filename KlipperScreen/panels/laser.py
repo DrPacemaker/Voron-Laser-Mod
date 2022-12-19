@@ -90,7 +90,7 @@ class LaserPanel(MenuPanel):
                     icon = attributes['icon']
                     params = attributes['params']
                     method = attributes['method']
-                    class_name = f"graph_label_sensor_{pos+1}"
+                    class_name = f"graph_label_laser_{pos+1}"
                     dev_type = "sensor"
             
                     env = Environment(extensions=["jinja2.ext.i18n"], autoescape=True)

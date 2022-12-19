@@ -203,8 +203,8 @@ textview .time {
     background-color: #13181C;
 }
 
-.graph_label_sensor_1 {border-width: 0em; border-style: solid; background-color:#8B0000;}
-.graph_label_sensor_2 {border-width: 0em; border-style: solid; background-color:#8B0000;}
-.graph_label_sensor_3 {border-width: 0em; border-style: solid; background-color:#8B0000;}
-.graph_label_sensor_4 {border-width: 0em; border-style: solid; background-color:#8B0000;}
-.graph_label_sensor_5 {border-width: 0em; border-style: solid; background-color:#8B0000;}
+.graph_label_laser_1 {border-width: 0em; border-style: solid; background-color:#8B0000;}
+.graph_label_laser_2 {border-width: 0em; border-style: solid; background-color:#8B0000;}
+.graph_label_laser_3 {border-width: 0em; border-style: solid; background-color:#8B0000;}
+.graph_label_laser_4 {border-width: 0em; border-style: solid; background-color:#8B0000;}
+.graph_label_laser_5 {border-width: 0em; border-style: solid; background-color:#8B0000;}
